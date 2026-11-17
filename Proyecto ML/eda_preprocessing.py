@@ -2,12 +2,12 @@ import os
 import json
 from pathlib import Path
 
-import pandas as pd
-import numpy as np
-import matplotlib.pyplot as plt
-import seaborn as sns
-import tensorflow as tf
-from sklearn.model_selection import train_test_split
+import pandas as pd  # type: ignore[reportMissingModuleSource]
+import numpy as np  # type: ignore[reportMissingImports]
+import matplotlib.pyplot as plt  # type: ignore[reportMissingModuleSource]
+import seaborn as sns  # type: ignore[reportMissingModuleSource]
+import tensorflow as tf  # pyright: ignore[reportMissingModuleSource]
+from sklearn.model_selection import train_test_split  # type: ignore[reportMissingModuleSource]
 
 SEED = 42
 BASE_DIR = Path(__file__).resolve().parent
@@ -17,6 +17,7 @@ DATASET_DIR = BASE_DIR / "dataset"
 
 sns.set_theme(style="whitegrid")
 plt.rcParams.update({'font.size': 11})
+np.random.seed(SEED)
 tf.keras.utils.set_random_seed(SEED)
 
 # ==========================================
@@ -206,7 +207,7 @@ def codificar(df):
 
 val_enc, hold_enc, kaggle_enc = map(codificar, [df_val, df_hold, df_kaggle])
 
-# La capa Normalization aprende media y varianza SOLO con train
+# La capa Normalization aprende media y varianza SOLO con train (.adapt)
 norm = tf.keras.layers.Normalization(axis=-1)
 norm.adapt(train_enc[NUM_COLS].values.astype("float32"))
 
